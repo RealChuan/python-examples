@@ -9,4 +9,6 @@
 2. [M3U8Dwonloader](./M3U8Downloader/m3u8_downloader.py)---------------------------> 一个m3u8下载器，可以下载m3u8文件中的所有ts文件，并且合并成一个文件；
 3. [MonitorDirectory](./MonitorDirectory/monitor_directory.py)-------------------> 一个监控文件夹的类，可以监控文件夹的变化，包括文件的增加、删除、修改、重命名等；
 4. [MonitorProcess](./MonitorProcess/monitor_process.py)---------------------------> 一个监控进程资源占用的类，可以监控进程的CPU、内存、IO等资源的占用情况；
-5. [Syncthing](./Syncthing/syncthing_api.py)-------------------------------------------> 一个Syncthing的api接口类，可以通过api接口获取到Syncthing的一些信息，包括文件夹的信息、设备的信息等；
+5. [Opencv](./Opencv/opencv_api.py)----------------------------------------------------> 一个Opencv的api接口类，可以通过api接口对图片进行一些操作，包括图片的缩放、裁剪、旋转、灰度化、二值化等；
+6. [Syncthing](./Syncthing/syncthing_api.py)-------------------------------------------> 一个Syncthing的api接口类，可以通过api接口获取到Syncthing的一些信息，包括文件夹的信息、设备的信息等；
+7. [Webdav](./Webdav/webdav_client.py)------------------------------------------------> 一个Webdav的客户端类，可以通过Webdav协议对远程文件进行操作，包括上传、下载、删除、重命名等；

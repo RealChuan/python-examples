@@ -28,7 +28,7 @@ class SyncthingApi:
 
         self.currentMilliSeconds = 0
 
-    def getRestDBStatus(self):
+    def getDBStatus(self):
         response = requests.get(
             self.url + "/rest/db/status",
             headers=self.header,
@@ -42,7 +42,7 @@ class SyncthingApi:
 
     def getFolderStatus(self):
         # `/rest/db/status`接口来获取文件夹的状态，包括`state`, `stateChanged`等信息¹。这个接口返回的数据中，`state`表示文件夹的当前状态，可能的值有`idle`, `scanning`, `cleaning`, `syncing`, `error`, `unknown`²。`stateChanged`表示文件夹状态最后一次改变的时间²
-        status = self.getRestDBStatus()
+        status = self.getDBStatus()
         if status is None:
             return
 
@@ -56,7 +56,7 @@ class SyncthingApi:
 
     def getFolderSyncedSize(self):
         # 获取已完成同步大小和文件夹总大小，`/rest/db/status`接口来获取文件夹的状态，包括`globalBytes`, `localBytes`, `inSyncBytes`, `needBytes`等信息¹。这个接口返回的数据中，`globalBytes`表示文件夹的总大小，`inSyncBytes`表示已完成同步的大小¹。
-        status = self.getRestDBStatus()
+        status = self.getDBStatus()
         if status is None:
             return
 
@@ -96,7 +96,7 @@ class SyncthingApi:
 
     def getFolderSpeed(self):
         # Get the folder status and completion
-        status = self.getRestDBStatus()
+        status = self.getDBStatus()
         if status is None:
             return
 
@@ -154,11 +154,35 @@ class SyncthingApi:
         self.needBytes = needBytes
         self.currentMilliSeconds = currentMilliSeconds
 
+    def getSystemlog(self):
+        response = requests.get(
+            self.url + "/rest/system/log",
+            headers=self.header,
+            params={"since": 0, "limit": 1},
+        )
+        if response.status_code == 200:
+            log = response.json()
+            print("The last log is", json.dumps(log, indent=4, sort_keys=True))
+        else:
+            print("system/log Error: " + str(response.status_code))
+
     def getEvents(self, event):
         response = requests.get(
             self.url + "/rest/events",
             headers=self.header,
             params={"events": event, "since": 0, "limit": 1},
+        )
+        if response.status_code == 200:
+            events = response.json()
+            print("The last event is", json.dumps(events, indent=4, sort_keys=True))
+        else:
+            print("events Error: " + str(response.status_code))
+
+    def getEventsDisk(self):
+        response = requests.get(
+            self.url + "/rest/events",
+            headers=self.header,
+            params={"events": "FolderScanProgress", "since": 0, "timeout": 10},
         )
         if response.status_code == 200:
             events = response.json()
@@ -181,6 +205,8 @@ if __name__ == "__main__":
         syncApi.getFolderSyncedSize()
         syncApi.getFolderFileNum()
         syncApi.getFolderSpeed()
+        syncApi.getSystemlog()
+        syncApi.getEventsDisk()
         syncApi.getEvents("FolderScanProgress")
 
         time.sleep(sleepTime)

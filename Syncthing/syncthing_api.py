@@ -180,9 +180,9 @@ class SyncthingApi:
 
     def getEventsDisk(self):
         response = requests.get(
-            self.url + "/rest/events",
+            self.url + "/rest/events/disk",
             headers=self.header,
-            params={"events": "FolderScanProgress", "since": 0, "timeout": 10},
+            params={"since": 0, "timeout": 10, "limit": 1},
         )
         if response.status_code == 200:
             events = response.json()

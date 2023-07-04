@@ -37,7 +37,7 @@ class SyncthingApi:
         if response.status_code == 200:
             return response.json()
         else:
-            print("db/status Error: " + str(response.status_code))
+            print("db/status Error: " + str(response.status_code) + " " + response.text)
             return None
 
     def getFolderStatus(self):
@@ -92,7 +92,7 @@ class SyncthingApi:
             # Print the result
             print("The number of files that need to be synced is", file_count)
         else:
-            print("db/need Error: " + str(response.status_code))
+            print("db/need Error: " + str(response.status_code) + " " + response.text)
 
     def getFolderSpeed(self):
         # Get the folder status and completion
@@ -106,7 +106,12 @@ class SyncthingApi:
             params={"folder": self.folder, "device": self.deviceId},
         )
         if response.status_code != 200:
-            print("db/completion Error: " + str(response.status_code))
+            print(
+                "db/completion Error: "
+                + str(response.status_code)
+                + " "
+                + response.text
+            )
             return
 
         completion = response.json()
@@ -154,6 +159,31 @@ class SyncthingApi:
         self.needBytes = needBytes
         self.currentMilliSeconds = currentMilliSeconds
 
+    def getDbBrowse(self):
+        response = requests.get(
+            self.url + "/rest/db/browse",
+            headers=self.header,
+            params={"folder": self.folder},
+        )
+        if response.status_code == 200:
+            browse = response.json()
+            print("The browse is", json.dumps(browse, indent=4, sort_keys=True))
+        else:
+            print("db/browse Error: " + str(response.status_code) + " " + response.text)
+
+    def getConfigFolders(self):
+        response = requests.get(self.url + "/rest/config/folders", headers=self.header)
+        if response.status_code == 200:
+            folders = response.json()
+            print("The folders are", json.dumps(folders, indent=4, sort_keys=True))
+        else:
+            print(
+                "config/folders Error: "
+                + str(response.status_code)
+                + " "
+                + response.text
+            )
+
     def getSystemlog(self):
         response = requests.get(
             self.url + "/rest/system/log",
@@ -164,7 +194,22 @@ class SyncthingApi:
             log = response.json()
             print("The last log is", json.dumps(log, indent=4, sort_keys=True))
         else:
-            print("system/log Error: " + str(response.status_code))
+            print(
+                "system/log Error: " + str(response.status_code) + " " + response.text
+            )
+
+    def postSystemReset(self):
+        response = requests.post(
+            self.url + "/rest/system/reset",
+            headers=self.header,
+            data={"folder": self.folder},
+        )
+        if response.status_code == 200:
+            print("The system reset is successful")
+        else:
+            print(
+                "system/reset Error: " + str(response.status_code) + " " + response.text
+            )
 
     def getEvents(self, event):
         response = requests.get(
@@ -176,7 +221,7 @@ class SyncthingApi:
             events = response.json()
             print("The last event is", json.dumps(events, indent=4, sort_keys=True))
         else:
-            print("events Error: " + str(response.status_code))
+            print("events Error: " + str(response.status_code) + " " + response.text)
 
     def getEventsDisk(self):
         response = requests.get(
@@ -188,14 +233,14 @@ class SyncthingApi:
             events = response.json()
             print("The last event is", json.dumps(events, indent=4, sort_keys=True))
         else:
-            print("events Error: " + str(response.status_code))
+            print("events Error: " + str(response.status_code) + " " + response.text)
 
 
 if __name__ == "__main__":
     deviceId = "S5YAD7T-2SF4QQI-67J7EV6-JWNPPB6-FDHIGNI-QNLNDRO-NOOGGDU-BYI4FAN"
     apikey = "QfwYDE2yXj9ysgXWgNNUN6QYkJ95gLoQ"
     url = "http://localhost:8384"
-    folder = "eyJ1aWQiOjEwMDEsInVuYXNfZGV2aWNlSUQiOiIzVEE2R1pLLTVTTU5IUFAtRFNTVEtFSS1JSU5URUZULVpUVFFaUVctM0VER0pMWS1OMkhDQ0xXLTQzWE5RQVUiLCJjbGllbnRfZGV2aWNlSUQiOiJTNVlBRDdULTJTRjRRUUktNjdKN0VWNi1KV05QUEI2LUZESElHTkktUU5MTkRSTy1OT09HR0RVLUJZSTRGQU4iLCJ1bmFzcGF0aCI6IlwvbW50XC9uYXNcL2RhdGFcL2hvbWVzXC9hZG1pblwvdS1kcml2ZVwvdGVzdF8xIiwibG9jYWxwYXRoIjoiQzpcL1VzZXJzXC9GWFlcL0Rvd25sb2FkcyIsInVzZXJuYW1lIjoiYWRtaW4iLCJjbGllbnR1c2VybmFtZSI6IiJ9"
+    folder = "eyJ1aWQiOjEwMDEsInVuYXNfZGV2aWNlSUQiOiIzVEE2R1pLLTVTTU5IUFAtRFNTVEtFSS1JSU5URUZULVpUVFFaUVctM0VER0pMWS1OMkhDQ0xXLTQzWE5RQVUiLCJjbGllbnRfZGV2aWNlSUQiOiJTNVlBRDdULTJTRjRRUUktNjdKN0VWNi1KV05QUEI2LUZESElHTkktUU5MTkRSTy1OT09HR0RVLUJZSTRGQU4iLCJ1bmFzcGF0aCI6IlwvbW50XC9uYXNcL2RhdGFcL2hvbWVzXC9hZG1pblwvdS1kcml2ZVwvdGVzdF8xIiwibG9jYWxwYXRoIjoiQzpcL1VzZXJzXC9GWFlcL0Rvd25sb2Fkc1wvVS1Ecml2ZS1URVNUXC8xIiwidXNlcm5hbWUiOiJhZG1pbiIsImNsaWVudHVzZXJuYW1lIjoiIn0="
     sleepTime = 5
 
     syncApi = SyncthingApi(deviceId, apikey, url, folder)
@@ -205,7 +250,10 @@ if __name__ == "__main__":
         syncApi.getFolderSyncedSize()
         syncApi.getFolderFileNum()
         syncApi.getFolderSpeed()
+        syncApi.getDbBrowse()
+        syncApi.getConfigFolders()
         syncApi.getSystemlog()
+        syncApi.postSystemReset()
         syncApi.getEventsDisk()
         syncApi.getEvents("FolderScanProgress")
 

@@ -1,14 +1,14 @@
-# Python Utils
+# Python Examples
 
 - [简体中文](README.md)
 - [English](README.en.md)
 
-## Make life happier!
+## Make life happier
 
-1. [HostInfo](./HostInfo/host_info.py)-----------------------------------------------> 一个根据域名获取主机信息的类，可以获取到主机的IP、端口、协议等信息；
-2. [M3U8Dwonloader](./M3U8Downloader/m3u8_downloader.py)---------------------------> 一个m3u8下载器，可以下载m3u8文件中的所有ts文件，并且合并成一个文件；
-3. [MonitorDirectory](./MonitorDirectory/monitor_directory.py)-------------------> 一个监控文件夹的类，可以监控文件夹的变化，包括文件的增加、删除、修改、重命名等；
-4. [MonitorProcess](./MonitorProcess/monitor_process.py)---------------------------> 一个监控进程资源占用的类，可以监控进程的CPU、内存、IO等资源的占用情况；
-5. [Opencv](./Opencv/opencv_api.py)----------------------------------------------------> 一个Opencv的api接口类，可以通过api接口对图片进行一些操作，包括图片的缩放、裁剪、旋转、灰度化、二值化等；
-6. [Syncthing](./Syncthing/syncthing_api.py)-------------------------------------------> 一个Syncthing的api接口类，可以通过api接口获取到Syncthing的一些信息，包括文件夹的信息、设备的信息等；
-7. [Webdav](./Webdav/webdav_client.py)------------------------------------------------> 一个Webdav的客户端类，可以通过Webdav协议对远程文件进行操作，包括上传、下载、删除、重命名等；
+1. [host_info](./host_info/host_info.py)——根据域名获取主机信息，可以获取到主机的IP、端口、协议等信息；
+2. [m3u8_download](./m3u8_download/m3u8_downloader.py)——m3u8下载器，可以下载m3u8文件中的所有ts文件，并且合并成一个文件；
+3. [monitor_directory](./monitor_directory/monitor_directory.py)——监控文件夹的变化，包括文件的增加、删除、修改、重命名等；
+4. [monitor_process](./monitor_process/monitor_process.py)——监控进程资源占用，包括CPU、内存、IO等资源的占用情况；
+5. [opencv](./opencv/opencv_api.py)——opencv的api，可以对图片进行一些操作，包括图片的缩放、裁剪、旋转、灰度化、二值化等；
+6. [syncthing](./syncthing/syncthing_api.py)——syncthing的部分api接口实现，可以获取到syncthing的一些信息，包括文件夹的信息、设备的信息等；
+7. [wedav_client](./wedav_client/webdav_client.py)——根据webdav协议对webdav server上的文件进行操作，包括上传、下载、删除、重命名等；
